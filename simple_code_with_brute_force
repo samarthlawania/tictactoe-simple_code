@@ -1,0 +1,150 @@
+import java.util.*;
+
+public class tictactoe {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        char game_formate1[] = { '0', '|', '|', '3', '|', '|', '6', '\n', '8', '|', '|', '1', '1', '|', '|', '1', '4',
+                '\n', '1', '6',
+                '|', '|', '1', '9', '|', '|', '2', '2' };// To define the position for user
+        char game_formate[] = { ' ', '|', '|', ' ', '|', '|', ' ', '\n', ' ', '|', '|', ' ', '|', '|', ' ', '\n', ' ',
+                '|', '|', ' ', '|', '|', ' ' };// game's formate
+        int array_of_positions[] = { 0, 3, 6, 8, 11, 14, 16, 19, 22 };
+        printArray(game_formate1);
+        printArray(game_formate);// to print the game_formate
+
+        int no_of_attempts_remaining = 9;// maximum no. of times both can play the game
+        System.out
+                .println("The player wants to play the first move enter the name first as user 1 have x and 2 have o");
+        String user_1 = input.next();// name of player 1
+        String user_2 = input.next();// name of player 2
+        printArray(array_of_positions);
+        // main logic
+        while (no_of_attempts_remaining != 0) {
+            System.out.println("PLAYR NO. 1 please choice one position which are shown ");// to take input from user_1
+            int user_1_choice = input.nextInt();
+
+            if (check(user_1_choice, array_of_positions) == false) {
+                System.out.println("Invalid number please enter a number from the given choices");
+                continue;
+            } else {
+                array_of_positions = newarray(array_of_positions, user_1_choice);
+                game_formate[user_1_choice] = 'X';
+                no_of_attempts_remaining--;
+                if (win(game_formate) == 1) {
+                    System.out.println(user_1 + " have won this game");
+                    break;
+                } else if (win(game_formate) == 2) {
+                    System.out.println(user_2 + " have won this game");
+                    break;
+                }
+                printArray(game_formate);
+                printArray(array_of_positions);
+                System.out.println(no_of_attempts_remaining);
+            }
+            System.out.println("please enter your position PLAYER NO. 2");
+            int user_2_choice = input.nextInt();
+            while (check(user_2_choice, array_of_positions) == false) {
+                System.out.println("Invalid number please enter a number from the given choices");
+                user_2_choice = input.nextInt();
+            }
+            game_formate[user_2_choice] = 'O';
+            no_of_attempts_remaining--;
+            if (win(game_formate) == 1) {
+                System.out.println(user_1 + " have won this game this game");
+                break;
+            } else if (win(game_formate) == 2) {
+                System.out.println(user_2 + " have won this game");
+                break;
+            }
+            printArray(game_formate);
+            printArray(array_of_positions);
+            System.out.println(no_of_attempts_remaining);
+        }
+        input.close();
+    }
+
+    // function to print array
+    public static void printArray(char arr[]) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+    }// end of the function to print the array
+
+    public static void printArray(int arr[]) {// function to print integer array
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static int[] newarray(int arr[], int x) {// function to delete the position on which atleast player have
+                                                    // played
+        int ar[] = new int[arr.length - 1], c = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == x)
+                c = i;
+        }
+        for (int i = c; i < arr.length - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        for (int i = 0; i < arr.length - 1; i++) {
+            ar[i] = arr[i];
+        }
+        return ar;
+    }
+
+    // function to check whether a person win or not
+    public static int win(char arr[]) {
+        if (arr[0] == arr[8] && arr[0] == arr[16] && (arr[0] == 'X' || arr[0] == 'O')) {
+            if (arr[0] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[0] == arr[11] && arr[0] == arr[22] && (arr[0] == 'X' || arr[0] == 'O')) {
+            if (arr[0] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[3] == arr[11] && arr[3] == arr[19] && (arr[3] == 'X' || arr[3] == 'O')) {
+            if (arr[3] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[6] == arr[14] && arr[6] == arr[22] && (arr[6] == 'X' || arr[6] == 'O')) {
+            if (arr[6] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[6] == arr[11] && arr[6] == arr[16] && (arr[6] == 'X' || arr[6] == 'O')) {
+            if (arr[6] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[0] == arr[3] && arr[0] == arr[6] && (arr[0] == 'X' || arr[0] == 'O')) {
+            if (arr[0] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[8] == arr[11] && arr[8] == arr[14] && (arr[8] == 'X' || arr[8] == 'O')) {
+            if (arr[8] == 'X')
+                return 1;
+            else
+                return 2;
+        } else if (arr[16] == arr[19] && arr[16] == arr[22] && (arr[16] == 'X' || arr[16] == 'O')) {
+            if (arr[16] == 'X')
+                return 1;
+            else
+                return 2;
+        } else
+            return 0;
+    }
+
+    public static boolean check(int x, int arr[]) {// function to check whether a number is present in array or not
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == x)
+                return true;
+        }
+        return false;
+    }
+}
